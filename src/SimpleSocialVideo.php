@@ -145,9 +145,9 @@ class SimpleSocialVideo {
 		}
 		elseif($this->provider == 'vimeo.com')
 		{
-			$url_dec = parse_url($this->video_url);
+			/*$url_dec = parse_url($this->video_url);
 			$hash = unserialize(file_get_contents("http://vimeo.com/api/v2/video/".substr($url_dec['path'], 1).".php"));
-			$id = substr($url_dec['path'], 1);
+			$id = substr($url_dec['path'], 1);*/
 		}
 		else {
 			 throw new Exception('Video ID not found !');
