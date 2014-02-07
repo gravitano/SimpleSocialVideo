@@ -3,7 +3,7 @@
 namespace simple;
 use Exception;
 
-require '../src/SimpleSocialVideo.php';
+require '../src/simple/SimpleSocialVideo.php';
 
 $valid_url_youtube = 'http://www.youtube.com/watch?v=wGvZWPOpZAE';
 $valid_url_vimeo = 'http://vimeo.com/718489';
