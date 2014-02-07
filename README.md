@@ -2,6 +2,7 @@ SimpleSocialVideo PHP Class
 ===========================
 
 *Develop by Julien HAY*
+
 *Licensed under the MIT license : http://opensource.org/licenses/MIT*
 
 Usage
