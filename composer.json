@@ -1,5 +1,5 @@
 {
-	"name"        : "simple/SimpleSocialVideo",
+	"name"        : "simple/simplesocialvideo",
 	"description" : "PHP Class for video youtube and vimeo",
 	"license"     : [
 		"MIT"
