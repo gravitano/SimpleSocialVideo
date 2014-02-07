@@ -1,6 +1,6 @@
 <?php
 /**
- * @package		SimpleVideo class
+ * @package		SimpleSocialVideo class
  * @version		1.0
  * @author		Julien HAY <jules.hay@gmail.com>
  * @license		This software is licensed under the MIT license: http://opensource.org/licenses/MIT
@@ -12,12 +12,12 @@ namespace simple;
 use Exception;
 
 /**
- * Class SimpleVideo
+ * Class SimpleSocialVideo
  * Video class for Youtube & vimeo
- * @package SimpleVideo
+ * @package SimpleSocialVideo
  *
  */
-class SimpleVideo {
+class SimpleSocialVideo {
 
 	/**
 	 * @var string Video URL
