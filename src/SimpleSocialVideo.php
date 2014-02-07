@@ -37,6 +37,15 @@ class SimpleSocialVideo {
 	 */
 	protected $provider;
 
+	/**
+	 * @var string Data from API JSON
+	 *
+	 * Vimeo : http://vimeo.com/api/v2/video/{ID}.json
+	 * Youtube : http://gdata.youtube.com/feeds/api/videos/{ID}?v=2&alt=json
+	 */
+	protected $data_api;
+
+
 	function __construct($url_video)
 	{
 		if(!filter_var($url_video, FILTER_VALIDATE_URL)){
@@ -46,6 +55,7 @@ class SimpleSocialVideo {
 		$this->video_url = $url_video;
 		$this->provider = $this->searchProvider();
 		$this->video_id = $this->defineVideoId();
+		$this->data_api = $this->downloadJsonContent();
 	}
 
 	/**
@@ -146,6 +156,26 @@ class SimpleSocialVideo {
 		return $id;
 	}
 
+	/**
+	 * Download json content
+	 *
+	 * @return string
+	 **/
+	private function downloadJsonContent()
+	{
+		if($this->provider =='youtube.com' || $this->provider =='youtu.be')
+		{
+		    $content = file_get_contents('http://gdata.youtube.com/feeds/api/videos/'.$this->video_id.'?v=2&alt=json');	
+		}
+		elseif($this->provider == 'vimeo.com')
+		{
+			$content = file_get_contents('http://vimeo.com/api/v2/video/'.$this->video_id.'.json');			
+		}
+
+		$json = json_decode($content);
+
+		return $json;
+	}
 
 	/**
 	 * Get provider
@@ -174,6 +204,7 @@ class SimpleSocialVideo {
 	 **/
 	private function checkExist()
 	{
+		// TODO : To finish
 		$res = parse_url($this->url);
 		if ( preg_match( "/\/watch/" , $res["path"]  ) ){
 		    echo "found video\n ";
@@ -182,6 +213,20 @@ class SimpleSocialVideo {
 		return false;
 	}
 
+	/**
+	 * Get video title
+	 *
+	 * @return string
+	 **/
+	public function getVideoTitle()
+	{
+		if($this->provider =='youtube.com' || $this->provider =='youtu.be')
+			return $this->data_api->entry->title->{'$t'};
+		
+		// TODO : return title for vimeo
+		elseif($this->provider == 'vimeo.com')
+			return 'title';
+	}
 
 }
 
