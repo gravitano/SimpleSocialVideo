@@ -23,7 +23,13 @@ class SimpleSocialVideo {
 	 * @var string Video URL
 	 *
 	 */
-	protected $url;
+	protected $video_url;
+
+	/**
+	 * @var string Video ID
+	 *
+	 */
+	protected $video_id;
 
 	/**
 	 * @var string Video provider (youtube.com, youtube.be or vimeo)
@@ -35,39 +41,44 @@ class SimpleSocialVideo {
 	{
 		if(!filter_var($url_video, FILTER_VALIDATE_URL)){
 		    throw new Exception('URL is Not valid !');
-		    //return false;
 		}
 
-		$this->url = $url_video;
+		$this->video_url = $url_video;
 		$this->provider = $this->searchProvider();
+		$this->video_id = $this->defineVideoId();
 	}
 
 	/**
 	 * Get thumbnail of the video
 	 *
+	 * @param string $type 		Size of thumbnail : small (default), medium, large, max (only youtube)
+	 *
 	 * @return string
 	 **/
-	public function getBigThumbnailUrl()
+	public function getThumbnailUrl($type = 'small')
 	{
-		if($this->provider =='youtube.com')
+		if($this->provider =='youtube.com' || $this->provider == 'youtu.be')
 		{
-		    if($querystring=parse_url($this->url,PHP_URL_QUERY))
-		    {  
-		        parse_str($querystring);
-		        if(!empty($v)) return "http://img.youtube.com/vi/$v/0.jpg";
-		        else return false;
-		    }
-		    else return false;
+			switch ($type) {
+				case 'small': 	$img = 'default';			break;
+				case 'medium': 	$img = 'hqdefault';			break;
+				case 'large': 	$img = 'sddefault';			break;
+				case 'max':		$img = 'maxresdefault';		break;
+			}
+
+			return 'http://img.youtube.com/vi/'.$this->video_id.'/'.$img.'.jpg';
 		}
-		elseif($this->provider  == 'youtu.be')
+		elseif($this->provider == 'vimeo.com')
 		{
-		    $v= str_replace('/','', parse_url($this->url, PHP_URL_PATH));
-		    return (empty($v)) ? false : "http://img.youtube.com/vi/$v/0.jpg" ;
-		}
-		else if($this->provider == 'vimeo.com')
-		{
-			$hash = unserialize(file_get_contents("http://vimeo.com/api/v2/video/".substr($url_dec['path'], 1).".php"));
-			return $hash[0]["thumbnail_large"]; 
+			switch ($type) {
+				case 'small': 	$img = 'thumbnail_small';		break;
+				case 'medium': 	$img = 'thumbnail_medium';		break;
+				case 'large': 	$img = 'thumbnail_large';		break;
+				case 'max': 	$img = 'thumbnail_large';		break;
+			}
+
+			$hash = unserialize(file_get_contents('http://vimeo.com/api/v2/video/'.$this->video_id.'.php'));
+			return $hash[0][$img];
 		}
 		else {
 			throw new Exception('Unable to find video thumbnail');
@@ -81,26 +92,58 @@ class SimpleSocialVideo {
 	 **/
 	private function searchProvider()
 	{
-		$domain=parse_url($this->url,PHP_URL_HOST);
-		$url_dec=parse_url($this->url);
+		$domain = parse_url($this->video_url,PHP_URL_HOST);
 		$provider = '';
 
-		if($domain=='www.youtube.com' OR $domain=='youtube.com' OR $domain == 'youtu.be')
-		{
+		if($domain=='www.youtube.com' OR $domain=='youtube.com' OR $domain == 'youtu.be') {
 		    $provider = "youtube.com";
 		}
-		elseif($domain == 'youtu.be')
-		{
+		elseif($domain == 'youtu.be') {
 			$provider = "youtube.be";
 		}
-		elseif($domain == 'www.vimeo.com' || $domain == 'vimeo.com'){
-			$provider = "vimeo";
+		elseif($domain == 'www.vimeo.com' || $domain == 'vimeo.com') {
+			$provider = "vimeo.com";
 		}
 		else {
 			 throw new Exception('Video provider not found !');
 		}
 
 		return $provider;
+	}
+
+
+	/**
+	 * Define video ID
+	 *
+	 * @return string
+	 **/
+	private function defineVideoId()
+	{
+		if($this->provider =='youtube.com')
+		{
+		    if($querystring = parse_url($this->video_url, PHP_URL_QUERY))
+		    {  
+		        parse_str($querystring);
+		        $id = $v;
+		    }
+		    else return false;
+		}
+		elseif($this->provider == 'youtu.be')
+		{
+		    $v = str_replace('/','', parse_url($this->video_url, PHP_URL_PATH));
+		    $id = $v;
+		}
+		elseif($this->provider == 'vimeo.com')
+		{
+			$url_dec = parse_url($this->video_url);
+			$hash = unserialize(file_get_contents("http://vimeo.com/api/v2/video/".substr($url_dec['path'], 1).".php"));
+			$id = substr($url_dec['path'], 1);
+		}
+		else {
+			 throw new Exception('Video ID not found !');
+		}
+
+		return $id;
 	}
 
 
@@ -112,6 +155,31 @@ class SimpleSocialVideo {
 	public function getProvider()
 	{
 		return $this->provider;
+	}
+
+	/**
+	 * Get video ID
+	 *
+	 * @return string
+	 **/
+	public function getVideoId()
+	{
+		return $this->video_id;
+	}
+
+	/**
+	 * Check if video exist on the provider
+	 *
+	 * @return boolean
+	 **/
+	private function checkExist()
+	{
+		$res = parse_url($this->url);
+		if ( preg_match( "/\/watch/" , $res["path"]  ) ){
+		    echo "found video\n ";
+		}
+
+		return false;
 	}
 
 
