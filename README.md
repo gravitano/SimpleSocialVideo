@@ -5,6 +5,8 @@ SimpleSocialVideo PHP Class
 
 *Licensed under the MIT license : http://opensource.org/licenses/MIT*
 
+Class PHP to get infos from Youtube or Vimeo video, thumbnail, title, description.
+
 Example
 -------
 
