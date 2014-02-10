@@ -18,17 +18,19 @@ use Exception;
 
 require '../src/simple/SimpleSocialVideo.php';
 
-$valid_url_youtube = 'http://www.youtube.com/watch?v=wGvZWPOpZAE'; // OR vimeo URL
+$valid_url_youtube = 'http://www.youtube.com/watch?v=wGvZWPOpZAE';
+$valid_url_vimeo = 'http://vimeo.com/718489';
 
 try {
     
     $video = new SimpleSocialVideo($valid_url_youtube);
+    //$video = new SimpleSocialVideo($valid_url_vimeo);
     
     echo '<p>Provider : '.$video->getProvider().'</p>';
     echo '<p>Video ID : '.$video->getVideoId().'</p>';
     echo '<p>Video title : '.$video->getVideoTitle().'</p>';
 
-    echo '<p>Video : <img src="'.$video->iframePlayer().'" /></p>';
+    echo '<p>Video : '.$video->iframePlayer().'</p>';
     
     echo '<p>Small Thumb : <img src="'.$video->getThumbnailUrl().'" /></p>';
     echo '<p>Medium Thumb : <img src="'.$video->getThumbnailUrl('medium').'" /></p>';
@@ -39,6 +41,7 @@ try {
 } catch (Exception $e) {
     echo '<strong>'.$e->getMessage().'</strong>';
 }
+
 
 ?>
 ```

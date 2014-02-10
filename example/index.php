@@ -17,7 +17,7 @@ try {
 	echo '<p>Video ID : '.$video->getVideoId().'</p>';
 	echo '<p>Video title : '.$video->getVideoTitle().'</p>';
 
-	echo '<p>Video : <img src="'.$video->iframePlayer().'" /></p>';
+	echo '<p>Video : '.$video->iframePlayer().'</p>';
 	
 	echo '<p>Small Thumb : <img src="'.$video->getThumbnailUrl().'" /></p>';
 	echo '<p>Medium Thumb : <img src="'.$video->getThumbnailUrl('medium').'" /></p>';
