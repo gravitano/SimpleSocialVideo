@@ -16,18 +16,20 @@ Example
 namespace simple;
 use Exception;
 
-require '../src/SimpleSocialVideo.php';
+require '../src/simple/SimpleSocialVideo.php';
 
-$valid_url_youtube = 'http://www.youtube.com/watch?v=wGvZWPOpZAE';
+$valid_url_youtube = 'http://www.youtube.com/watch?v=wGvZWPOpZAE'; // OR vimeo URL
 
 try {
+    
     $video = new SimpleSocialVideo($valid_url_youtube);
     
     echo '<p>Provider : '.$video->getProvider().'</p>';
     echo '<p>Video ID : '.$video->getVideoId().'</p>';
     echo '<p>Video title : '.$video->getVideoTitle().'</p>';
 
-
+    echo '<p>Video : <img src="'.$video->iframePlayer().'" /></p>';
+    
     echo '<p>Small Thumb : <img src="'.$video->getThumbnailUrl().'" /></p>';
     echo '<p>Medium Thumb : <img src="'.$video->getThumbnailUrl('medium').'" /></p>';
     echo '<p>Large Thumb : <img src="'.$video->getThumbnailUrl('large').'" /></p>';
@@ -37,6 +39,7 @@ try {
 } catch (Exception $e) {
     echo '<strong>'.$e->getMessage().'</strong>';
 }
+
 ?>
 ```
 

@@ -228,5 +228,25 @@ class SimpleSocialVideo {
 			return 'title';
 	}
 
+	/**
+	 * Display video player
+	 *
+	 * @return string -> provider iframe
+	 **/
+	public function iframePlayer()
+	{
+		// TODO : Select size output
+		if($this->provider =='youtube.com' || $this->provider =='youtu.be')
+		{
+		    $content = '<iframe width="640" height="360" src="//www.youtube-nocookie.com/embed/'.$this->video_id.'?rel=0" frameborder="0" allowfullscreen></iframe>';
+		}
+		elseif($this->provider == 'vimeo.com')
+		{
+			$content = '<iframe src="//player.vimeo.com/video/'.$this->video_id.'" width="250" height="141" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>';		
+		}
+
+		return $content;
+	}
+
 }
 
