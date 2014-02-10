@@ -18,13 +18,11 @@ use Exception;
 
 require '../src/simple/SimpleSocialVideo.php';
 
-$valid_url_youtube = 'http://www.youtube.com/watch?v=wGvZWPOpZAE';
-$valid_url_vimeo = 'http://vimeo.com/718489';
+$valid_url_youtube = 'http://www.youtube.com/watch?v=wGvZWPOpZAE'; // Or vimeo video
 
 try {
     
     $video = new SimpleSocialVideo($valid_url_youtube);
-    //$video = new SimpleSocialVideo($valid_url_vimeo);
     
     echo '<p>Provider : '.$video->getProvider().'</p>';
     echo '<p>Video ID : '.$video->getVideoId().'</p>';
