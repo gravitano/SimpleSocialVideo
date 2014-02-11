@@ -32,7 +32,7 @@ class SimpleSocialVideo {
 	protected $video_id;
 
 	/**
-	 * @var string Video provider (youtube.com, youtube.be or vimeo)
+	 * @var string Video provider (youtube.com, youtu.be or vimeo)
 	 *
 	 */
 	protected $provider;
