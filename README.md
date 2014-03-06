@@ -18,7 +18,7 @@ use Exception;
 
 require '../src/simple/SimpleSocialVideo.php';
 
-$valid_url_youtube = 'http://www.youtube.com/watch?v=wGvZWPOpZAE'; // Or vimeo video
+$valid_url_youtube = 'http://www.youtube.com/watch?v=wGvZWPOpZAE';
 
 try {
     
@@ -28,7 +28,7 @@ try {
     echo '<p>Video ID : '.$video->getVideoId().'</p>';
     echo '<p>Video title : '.$video->getVideoTitle().'</p>';
 
-    echo '<p>Video : '.$video->iframePlayer().'</p>';
+    echo '<p>Video : '.$video->iframePlayer(800, 600, true, false, true).'</p>';
     
     echo '<p>Small Thumb : <img src="'.$video->getThumbnailUrl().'" /></p>';
     echo '<p>Medium Thumb : <img src="'.$video->getThumbnailUrl('medium').'" /></p>';
