@@ -145,9 +145,9 @@ class SimpleSocialVideo {
 		}
 		elseif($this->provider == 'vimeo.com')
 		{
-			/*$url_dec = parse_url($this->video_url);
+			$url_dec = parse_url($this->video_url);
 			$hash = unserialize(file_get_contents("http://vimeo.com/api/v2/video/".substr($url_dec['path'], 1).".php"));
-			$id = substr($url_dec['path'], 1);*/
+			$id = substr($url_dec['path'], 1);
 		}
 		else {
 			 throw new Exception('Video ID not found !');
@@ -223,30 +223,60 @@ class SimpleSocialVideo {
 		if($this->provider =='youtube.com' || $this->provider =='youtu.be')
 			return $this->data_api->entry->title->{'$t'};
 		
-		// TODO : return title for vimeo
 		elseif($this->provider == 'vimeo.com')
-			return 'title';
+			return $this->data_api[0]->title;
+	}
+
+	/**
+	 * Construct url Parameters ( ex : ?value=1&value2=true )
+	 *
+	 * @param Array $params 		Params list key value
+	 *
+	 * @return string
+	 **/
+	private function constructUrlParams($params)
+	{
+		$ret = '';
+		$first = true;
+		foreach ($params as $key => $value) {
+			if(!$first) $ret .= '&amp;';
+			$ret .= $key.'='.$value;
+			$first = false;
+		}
+
+		return ($ret != '') ? '?'.$ret : '';
 	}
 
 	/**
 	 * Display video player
 	 *
+	 * @param string $width 			Player width (default : 640)
+	 * @param string $height 			Video height (default : 360)
+	 * @param boolean $autoplay 		Autoplay Video, Youtube autoplay don't work on Firefox (default : false)
+	 * @param boolean $suggest 			Show suggested videos when the video finishes (default : false)
+	 * @param boolean $privacy 			Enable privacy-enhanced mode (default : true)
+	 *
 	 * @return string -> provider iframe
 	 **/
-	public function iframePlayer()
+	public function iframePlayer($width = 640, $height = 360, $autoplay = false, $suggest = false, $privacy = true)
 	{
-		// TODO : Select size output
+		$url_params = array();
+
+		if($autoplay) $url_params['autoplay'] = 1;
+
 		if($this->provider =='youtube.com' || $this->provider =='youtu.be')
 		{
-		    $content = '<iframe width="640" height="360" src="//www.youtube-nocookie.com/embed/'.$this->video_id.'?rel=0" frameborder="0" allowfullscreen></iframe>';
+		    if(!$suggest) $url_params['rel'] = 0;
+
+		    $privacy = ($privacy) ? '-nocookie' : '';
+		    $content = '<iframe width="'.$width.'" height="'.$height.'" src="//www.youtube'.$privacy.'.com/embed/'.$this->video_id.$this->constructUrlParams($url_params).'" frameborder="0" allowfullscreen></iframe>';
 		}
 		elseif($this->provider == 'vimeo.com')
 		{
-			$content = '<iframe src="//player.vimeo.com/video/'.$this->video_id.'" width="250" height="141" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>';		
+			$content = '<iframe src="//player.vimeo.com/video/'.$this->video_id.$this->constructUrlParams($url_params).'" width="'.$width.'" height="'.$height.'" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>';		
 		}
 
 		return $content;
 	}
 
 }
-

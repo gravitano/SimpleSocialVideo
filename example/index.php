@@ -10,14 +10,14 @@ $valid_url_vimeo = 'http://vimeo.com/718489';
 
 try {
 	
-	$video = new SimpleSocialVideo($valid_url_youtube);
-	//$video = new SimpleSocialVideo($valid_url_vimeo);
+	//$video = new SimpleSocialVideo($valid_url_youtube);
+	$video = new SimpleSocialVideo($valid_url_vimeo);
 	
 	echo '<p>Provider : '.$video->getProvider().'</p>';
 	echo '<p>Video ID : '.$video->getVideoId().'</p>';
 	echo '<p>Video title : '.$video->getVideoTitle().'</p>';
 
-	echo '<p>Video : '.$video->iframePlayer().'</p>';
+	echo '<p>Video : '.$video->iframePlayer(800, 600, true, false, true).'</p>';
 	
 	echo '<p>Small Thumb : <img src="'.$video->getThumbnailUrl().'" /></p>';
 	echo '<p>Medium Thumb : <img src="'.$video->getThumbnailUrl('medium').'" /></p>';
