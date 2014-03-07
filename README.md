@@ -44,4 +44,28 @@ try {
 ?>
 ```
 
+Composer Install
+----------------
 
+- Create file composer.json with this content : 
+
+```json
+
+{
+	"require" : 
+	{
+		"simple/simplesocialvideo": "dev-master"
+	}
+}
+```
+
+- Tape ```composer install```
+- Create file example.php 
+```php
+<?php
+
+require ('vendor/autoload.php');
+$video = new simple\SimpleSocialVideo($URL);
+
+?>
+```
