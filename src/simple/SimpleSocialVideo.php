@@ -109,7 +109,7 @@ class SimpleSocialVideo {
 		    $provider = "youtube.com";
 		}
 		elseif($domain == 'youtu.be') {
-			$provider = "youtube.be";
+			$provider = "youtu.be";
 		}
 		elseif($domain == 'www.vimeo.com' || $domain == 'vimeo.com') {
 			$provider = "vimeo.com";
