@@ -69,3 +69,4 @@ $video = new simple\SimpleSocialVideo($URL);
 
 ?>
 ```
+- And now you can use Simple Social Video
