@@ -165,7 +165,7 @@ class SimpleSocialVideo {
 	{
 		if($this->provider =='youtube.com' || $this->provider =='youtu.be')
 		{
-		    $content = file_get_contents('http://gdata.youtube.com/feeds/api/videos/'.$this->video_id.'?v=2&alt=json');	
+		    $content = @file_get_contents('http://gdata.youtube.com/feeds/api/videos/'.$this->video_id.'?v=2&alt=json');	
 		}
 		elseif($this->provider == 'vimeo.com')
 		{
